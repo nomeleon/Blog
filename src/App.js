@@ -3,7 +3,7 @@
 
 import logo from "./logo.svg";
 import "./App.css";
-import { useState } from "react";
+import React, { useState } from "react";
 
 function App() {
   let [title, setTitle] = useState([
@@ -55,7 +55,16 @@ function App() {
               {like[i]}{" "}
             </h4>
             <p>2022.07.14</p>
-            <button>delete</button>
+            <button
+              onClick={() => {
+                let copy = [...title];
+                copy.splice(i, 1); //원하는 항목 삭제
+                //splice(0,1) : 0번째 항목 1개 삭제
+                setTitle(copy);
+              }}
+            >
+              delete
+            </button>
           </div>
         );
       })}
@@ -68,7 +77,15 @@ function App() {
       />
       {/* 1. 버튼 누르면 새로운 글 추가 
       2. 삭제 버튼 만들어서 누르면 글 삭제 기능*/}
-      <button>add</button>
+      <button
+        onClick={() => {
+          let copy = [...title];
+          copy.unshift(input); //맨 앞에 넣기
+          setTitle(copy);
+        }}
+      >
+        add
+      </button>
 
       {modal ? (
         <Modal title={title} update={update_title} title_state={title_state} />
@@ -87,6 +104,31 @@ function Modal(props) {
       <button onClick={props.update}>글수정</button>
     </div>
   );
+}
+
+//class
+class Modal2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "kim",
+      age: 20,
+    };
+  }
+  render() {
+    return (
+      <>
+        <div>hi {this.state.name}</div>
+        <button
+          onClick={() => {
+            this.setState({ age: 21 });
+          }}
+        >
+          change
+        </button>
+      </>
+    );
+  }
 }
 
 export default App;
